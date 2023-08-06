@@ -1,4 +1,12 @@
 import React from 'react'
+import {
+  CommonLi,
+  CommonSpan,
+  InputBox,
+  InputCheck,
+  RowWrap,
+  SmallButton,
+} from './common'
 
 const TodoItem = props => {
   const [updateMode, setUpdateMode] = React.useState(false)
@@ -19,9 +27,9 @@ const TodoItem = props => {
 
   return (
     <div>
-      <li>
-        <label>
-          <input
+      <CommonLi>
+        <RowWrap>
+          <InputCheck
             type='checkbox'
             name='upd_check'
             disabled={!updateMode}
@@ -29,53 +37,62 @@ const TodoItem = props => {
             onChange={e => setUpdCheck(e.target.checked)}
           />
           {updateMode ? (
-            <input
+            <InputBox
               type='text'
               name='upd_text'
               onChange={e => setUpdText(e.target.value)}
               data-testid='modify-input'
               value={updText}
+              noMB
             />
           ) : (
-            <span>{props.item.todo}</span>
+            <>
+              <CommonSpan weight={800}>
+                {parseInt(props.index)}. &nbsp;
+              </CommonSpan>
+              <CommonSpan noML>{props.item.todo}</CommonSpan>
+            </>
           )}
-        </label>
+        </RowWrap>
         {updateMode ? (
           <span>
-            <button
+            <SmallButton
               type='button'
               onClick={todoUpdate}
               data-testid='modify-button'
+              color={'rgb(67, 139, 255)'}
             >
               제출
-            </button>
-            <button
+            </SmallButton>
+            <SmallButton
               type='button'
               onClick={cancelUpdate}
               data-testid='delete-button'
+              color={'orangered'}
             >
               취소
-            </button>
+            </SmallButton>
           </span>
         ) : (
           <span>
-            <button
+            <SmallButton
               type='button'
               onClick={() => setUpdateMode(true)}
               data-testid='modify-button'
             >
               수정
-            </button>
-            <button
+            </SmallButton>
+            <SmallButton
               type='button'
               onClick={() => props.delete(props.item.id)}
               data-testid='delete-button'
+              color={'red'}
             >
               삭제
-            </button>
+            </SmallButton>
           </span>
         )}
-      </li>
+      </CommonLi>
     </div>
   )
 }

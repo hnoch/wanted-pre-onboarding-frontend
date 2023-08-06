@@ -1,6 +1,14 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { signinApi } from '../apis/auth'
+import {
+  Inner,
+  InputBox,
+  Layout,
+  LogoImg,
+  CommonButton,
+  SubmitButton,
+} from '../components/common'
 
 const Signin = () => {
   const navigate = useNavigate()
@@ -69,35 +77,39 @@ const Signin = () => {
   }, [])
 
   return (
-    <div>
-      <h1>로그인</h1>
-      <form method='POST' onSubmit={submitHandle}>
-        <input
-          type='text'
-          name='email'
-          data-testid='email-input'
-          placeholder='abc@wanted.com'
-          onKeyUp={e => setEmail(e.target.value)}
-        />
-        <br />
-        <input
-          type='password'
-          name='password'
-          data-testid='password-input'
-          placeholder='********'
-          minLength={8}
-          onKeyUp={e => setPassword(e.target.value)}
-        />
-        <br />
-        <button
-          type='submit'
-          disabled={btnDisabled}
-          data-testid='signin-button'
-        >
-          로그인
-        </button>
-      </form>
-    </div>
+    <Layout>
+      <Inner>
+        <LogoImg src='/logo_wanted.png' />
+        <form method='POST' onSubmit={submitHandle}>
+          <InputBox
+            type='text'
+            name='email'
+            data-testid='email-input'
+            placeholder='abc@wanted.com'
+            onKeyUp={e => setEmail(e.target.value)}
+          />
+          <InputBox
+            type='password'
+            name='password'
+            data-testid='password-input'
+            placeholder='********'
+            minLength={8}
+            onKeyUp={e => setPassword(e.target.value)}
+          />
+          <SubmitButton
+            type='submit'
+            disabled={btnDisabled}
+            data-testid='signin-button'
+          >
+            로그인
+          </SubmitButton>
+        </form>
+
+        <CommonButton type='button' onClick={() => navigate('/signup')}>
+          회원가입
+        </CommonButton>
+      </Inner>
+    </Layout>
   )
 }
 

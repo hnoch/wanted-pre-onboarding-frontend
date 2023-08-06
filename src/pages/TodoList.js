@@ -7,6 +7,18 @@ import {
   updateTodoApi,
 } from '../apis/todo'
 import TodoItem from '../components/TodoItem'
+import {
+  CommonButton,
+  CommonH1,
+  CommonH2,
+  Inner,
+  InputBox,
+  Layout,
+  LogoImg,
+  NoData,
+  RowWrap,
+  SmallButton,
+} from '../components/common'
 
 const TodoList = () => {
   const navigate = useNavigate()
@@ -91,47 +103,66 @@ const TodoList = () => {
     }
   }, [])
 
+  const logoutHandle = () => {
+    localStorage.setItem('token', '')
+    document.location.reload()
+  }
+
   return (
-    <div>
-      <h1>Todo</h1>
-      <div>
-        <h2>Todo Add</h2>
-        <input
-          type='text'
-          name='newTodo'
-          data-testid='new-todo-input'
-          onKeyUp={e => setTodoText(e.target.value)}
-        />
-        <button
-          type='button'
-          onClick={createTodo}
-          disabled={!(todoText.length > 0)}
-          data-testid='new-todo-add-button'
-        >
-          추가
-        </button>
-      </div>
-      <div>
-        <h2>Todo List</h2>
-        {todoArr.length === 0 ? (
-          <div>
-            등록된 Todo가 없어요. <br />
-            Todo를 등록해주세요!
-          </div>
-        ) : (
-          todoArr.map((item, idx) => {
-            return (
-              <TodoItem
-                key={idx}
-                item={item}
-                update={updateTodo}
-                delete={deleteTodo}
-              />
-            )
-          })
-        )}
-      </div>
-    </div>
+    <Layout>
+      <Inner>
+        <LogoImg src='/logo_wanted.png' />
+        <CommonH1>TODO LIST</CommonH1>
+
+        <CommonButton type='button' onClick={logoutHandle} color='black'>
+          로그아웃
+        </CommonButton>
+        <div style={{ paddingTop: 20 }}>
+          <CommonH2>Todo Add</CommonH2>
+          <RowWrap>
+            <InputBox
+              type='text'
+              name='newTodo'
+              data-testid='new-todo-input'
+              onKeyUp={e => setTodoText(e.target.value)}
+              placeholder='Todo를 추가하세요.'
+              noMB={true}
+            />
+            <SmallButton
+              type='button'
+              onClick={createTodo}
+              disabled={!(todoText.length > 0)}
+              data-testid='new-todo-add-button'
+              width='auto'
+              color='rgb(67, 139, 255)'
+            >
+              추가
+            </SmallButton>
+          </RowWrap>
+        </div>
+        <div>
+          <CommonH2>Todo List</CommonH2>
+          {todoArr.length === 0 ? (
+            <NoData>
+              등록된 Todo가 없어요. <br />
+              Todo를 등록해주세요!
+            </NoData>
+          ) : (
+            todoArr.map((item, idx) => {
+              return (
+                <TodoItem
+                  key={idx}
+                  index={idx + 1}
+                  item={item}
+                  update={updateTodo}
+                  delete={deleteTodo}
+                />
+              )
+            })
+          )}
+        </div>
+      </Inner>
+    </Layout>
   )
 }
 

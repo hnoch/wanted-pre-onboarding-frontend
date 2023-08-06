@@ -1,6 +1,16 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { signupApi } from '../apis/auth'
+import {
+  CommonButton,
+  Inner,
+  InputBox,
+  InputLabel,
+  InputWarnLabel,
+  Layout,
+  LogoImg,
+  SubmitButton,
+} from '../components/common'
 
 const Signup = () => {
   const navigate = useNavigate()
@@ -64,35 +74,53 @@ const Signup = () => {
   }, [])
 
   return (
-    <div>
-      <h1>회원가입</h1>
-      <form method='POST' onSubmit={submitHandle}>
-        <input
-          type='text'
-          name='email'
-          data-testid='email-input'
-          placeholder='abc@wanted.com'
-          onKeyUp={e => setEmail(e.target.value)}
-        />
-        <br />
-        <input
-          type='password'
-          name='password'
-          data-testid='password-input'
-          placeholder='********'
-          minLength={8}
-          onKeyUp={e => setPassword(e.target.value)}
-        />
-        <br />
-        <button
-          type='submit'
-          disabled={btnDisabled}
-          data-testid='signup-button'
-        >
-          가입하기
-        </button>
-      </form>
-    </div>
+    <Layout>
+      <Inner>
+        <LogoImg src='/logo_wanted.png' />
+        <h1>회원가입</h1>
+        <form method='POST' onSubmit={submitHandle}>
+          <InputLabel>이메일</InputLabel>
+          <InputBox
+            type='text'
+            name='email'
+            data-testid='email-input'
+            placeholder='abc@wanted.com'
+            onKeyUp={e => setEmail(e.target.value)}
+          />
+          {email.length > 0 && !email.includes('@') && (
+            <InputWarnLabel>@를 포함한 이메일형식이어야 합니다.</InputWarnLabel>
+          )}
+          <InputLabel>비밀번호</InputLabel>
+          <InputBox
+            type='password'
+            name='password'
+            data-testid='password-input'
+            placeholder='********'
+            minLength={8}
+            onKeyUp={e => setPassword(e.target.value)}
+          />
+          {password.length > 0 && password.length < 8 && (
+            <InputWarnLabel>
+              8자 이상의 비밀번호형식이어야 합니다.
+            </InputWarnLabel>
+          )}
+          <SubmitButton
+            type='submit'
+            disabled={btnDisabled}
+            data-testid='signup-button'
+          >
+            가입하기
+          </SubmitButton>
+          <CommonButton
+            type='button'
+            onClick={() => navigate(-1)}
+            color='black'
+          >
+            뒤로가기
+          </CommonButton>
+        </form>
+      </Inner>
+    </Layout>
   )
 }
 
